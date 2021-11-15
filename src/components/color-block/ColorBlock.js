@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import style from "./ColorBlock.module.scss";
 import MdiIcon from "./../mdi-icon/MdiIcon";
-import context from "../../context/allColor";
+import contextAllcolor from "../../context/allColor";
+import contextAlert from "../../context/alert";
 import {
   mdiClose,
   mdiGrid,
@@ -20,9 +21,16 @@ const ColorBlock = (props) => {
   const styleBg = {
     backgroundColor: colorHex,
   };
-  const { setToggleLock } = useContext(context);
+  const { setToggleLock } = useContext(contextAllcolor);
   const handleClickLock = () => {
     setToggleLock(id);
+  };
+
+  const { showAlert, setMessage } = useContext(contextAlert);
+  const handleClickCopy = () => {
+    navigator.clipboard.writeText(colorHex);
+    setMessage((x) => "Color copied to clip board !");
+    showAlert();
   };
   return (
     <div className={style.block} style={styleBg}>
@@ -31,7 +39,11 @@ const ColorBlock = (props) => {
         <MdiIcon mobileHide={true} icon={mdiGrid} />
         <MdiIcon mobileHide={true} icon={mdiStarOutline} />
         <MdiIcon mobileHide={false} icon={mdiArrowLeftRight} />
-        <MdiIcon mobileHide={false} icon={mdiContentCopy} />
+        <MdiIcon
+          mobileHide={false}
+          icon={mdiContentCopy}
+          onClickCallBack={handleClickCopy}
+        />
         <MdiIcon
           mobileHide={false}
           isLarge={locked}

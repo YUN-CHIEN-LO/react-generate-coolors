@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import ColorBoard from "./components/color-board/ColorBoard";
-import "@material/react-material-icon/index.scss";
+
+import Alert from "./components/alert/Alert";
+import { Provider } from "./context/alert";
 function App() {
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [message, setMessage] = useState("");
+  const context = {
+    message: message,
+    setMessage: setMessage,
+    showAlert: () => {
+      setAlertVisible((x) => false);
+      setAlertVisible((x) => true);
+      const timer = setTimeout(() => {
+        setAlertVisible((x) => false);
+        clearTimeout(timer);
+      }, 3000);
+    },
+  };
   return (
-    <div className="App">
-      <ColorBoard />
-    </div>
+    <Provider value={context}>
+      <div className="App">
+        <ColorBoard />
+        {alertVisible && <Alert message={context.message} />}
+      </div>
+    </Provider>
   );
 }
 

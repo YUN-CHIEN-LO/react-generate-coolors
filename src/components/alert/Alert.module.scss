@@ -1,0 +1,22 @@
+.alert {
+  padding: 20px 50px;
+  background-color: #e4f5da;
+  color: #588a3b;
+  position: absolute;
+  transform: translateX(-50%);
+  bottom: 0;
+  left: 50%;
+  z-index: 1000;
+  animation: toggle 3s ease-in-out;
+  border-radius: 10px;
+}
+@keyframes toggle {
+  0%,
+  100% {
+    bottom: -100%;
+  }
+  10%,
+  90% {
+    bottom: 30px;
+  }
+}
