@@ -1,0 +1,24 @@
+.block {
+  flex: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  &__tools {
+    flex: 1;
+  }
+  &__label {
+    flex: 0 0 100px;
+    text-align: center;
+    padding-top: 30px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .block {
+    flex-direction: row-reverse;
+    align-items: center;
+    &__label {
+      padding-top: 0px;
+    }
+  }
+}
