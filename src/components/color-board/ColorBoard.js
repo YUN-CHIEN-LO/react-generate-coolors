@@ -2,30 +2,42 @@ import React, { useState, useEffect, useRef } from "react";
 import ColorBlock from "../color-block/ColorBlock";
 import style from "./ColorBoard.module.scss";
 import { Provider } from "../../context/allColor";
-import { genRandomColors } from "./utils";
+import { genRandomColors, toggleLock } from "./utils";
 const ColorBoard = () => {
   const [allColor, setAllColor] = useState([
     {
       id: 0,
       colorHex: "#D4AFB9",
+      locked: false,
     },
     {
       id: 1,
       colorHex: "#d1cfe2",
+      locked: false,
     },
     {
       id: 2,
       colorHex: "#9cadce",
+      locked: false,
     },
     {
       id: 3,
       colorHex: "#7ec4cf",
+      locked: false,
     },
     {
       id: 4,
       colorHex: "#52b2cf",
+      locked: false,
     },
   ]);
+
+  const context = {
+    colors: allColor,
+    setToggleLock: (id) => {
+      setAllColor((colors) => toggleLock(colors, id));
+    },
+  };
 
   const refSpaceListener = useRef({});
 
@@ -38,7 +50,7 @@ const ColorBoard = () => {
       clearTimeout(refSpaceListener.current);
       refSpaceListener.current = setTimeout(() => {
         // 產生新的色票
-        setAllColor((arr) => genRandomColors(arr));
+        setAllColor((colors) => genRandomColors(colors));
       }, 300);
     };
 
@@ -53,9 +65,9 @@ const ColorBoard = () => {
   }, []);
 
   return (
-    <Provider value={allColor}>
+    <Provider value={context}>
       <div className={style.board}>
-        {allColor.map((x) => (
+        {context.colors.map((x) => (
           <ColorBlock key={x.id} colorInfo={x} />
         ))}
       </div>

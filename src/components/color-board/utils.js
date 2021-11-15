@@ -1,6 +1,3 @@
-export const genRandomColors = (allColors) => {
-  return allColors.map((x) => ({ ...x, colorHex: genRandomColorHex() }));
-};
 const HEXS = [
   "0",
   "1",
@@ -22,3 +19,19 @@ const HEXS = [
 const randHex = () => HEXS[Math.floor(Math.random() * HEXS.length)];
 const genRandomColorHex = () =>
   `#${randHex()}${randHex()}${randHex()}${randHex()}${randHex()}${randHex()}`;
+
+export const genRandomColors = (allColors) => {
+  return allColors.map((x) => ({
+    ...x,
+    colorHex: x.locked ? x.colorHex : genRandomColorHex(),
+  }));
+};
+
+export const toggleLock = (arr, id) => {
+  return arr.map((x) => {
+    return {
+      ...x,
+      locked: x.id === id ? !x.locked : x.locked,
+    };
+  });
+};

@@ -6,14 +6,16 @@
   &__tools {
     flex: 1;
     display: flex;
-    opacity: 0;
+    & svg {
+      opacity: 0;
+    }
   }
   &__label {
     text-align: center;
   }
   &:hover {
-    & .block__tools {
-      opacity: 1;
+    & svg {
+      opacity: 0.5;
     }
   }
 }
