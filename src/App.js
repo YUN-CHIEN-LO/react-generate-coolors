@@ -8,8 +8,8 @@ function App() {
   const [message, setMessage] = useState("");
   const context = {
     message: message,
-    setMessage: setMessage,
-    showAlert: () => {
+    showAlert: (message) => {
+      setMessage((x) => message);
       setAlertVisible((x) => false);
       setAlertVisible((x) => true);
       const timer = setTimeout(() => {

@@ -2,40 +2,31 @@ import React, { useState, useEffect, useRef } from "react";
 import ColorBlock from "../color-block/ColorBlock";
 import style from "./ColorBoard.module.scss";
 import { Provider } from "../../context/allColor";
-import { genRandomColors, toggleLock } from "./utils";
+import {
+  DEFAULT_COLOR,
+  genRandomColors,
+  toggleLock,
+  showShade,
+  hideShade,
+  replaceColor,
+} from "./utils";
+
 const ColorBoard = () => {
-  const [allColor, setAllColor] = useState([
-    {
-      id: 0,
-      colorHex: "#D4AFB9",
-      locked: false,
-    },
-    {
-      id: 1,
-      colorHex: "#d1cfe2",
-      locked: false,
-    },
-    {
-      id: 2,
-      colorHex: "#9cadce",
-      locked: false,
-    },
-    {
-      id: 3,
-      colorHex: "#7ec4cf",
-      locked: false,
-    },
-    {
-      id: 4,
-      colorHex: "#52b2cf",
-      locked: false,
-    },
-  ]);
+  const [allColor, setAllColor] = useState(DEFAULT_COLOR);
 
   const context = {
     colors: allColor,
     setToggleLock: (id) => {
       setAllColor((colors) => toggleLock(colors, id));
+    },
+    setShowShade: (id) => {
+      setAllColor((colors) => showShade(colors, id));
+    },
+    setHideShade: () => {
+      setAllColor((colors) => hideShade(colors));
+    },
+    setColor: (id, hex) => {
+      setAllColor((colors) => replaceColor(colors, id, hex));
     },
   };
 

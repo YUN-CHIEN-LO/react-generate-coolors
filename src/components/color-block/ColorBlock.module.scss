@@ -1,8 +1,10 @@
 .block {
   flex: 1;
-  height: 100vh;
-  display: flex;
-
+  &__noshade,
+  &__shade {
+    height: 100vh;
+    display: flex;
+  }
   &__tools {
     flex: 1;
     display: flex;
@@ -23,7 +25,13 @@
 // 大螢幕
 @media only screen and (min-width: 601px) {
   .block {
-    flex-direction: column;
+    &__noshade,
+    &__shade {
+      flex-direction: column;
+    }
+    &__shade {
+      // justify-content: stretch;
+    }
     &__label {
       flex: 0 0 100px;
       padding-top: 30px;
@@ -41,8 +49,10 @@
 // 小螢幕
 @media only screen and (max-width: 600px) {
   .block {
-    flex-direction: row-reverse;
-    align-items: center;
+    &__noshade {
+      align-items: center;
+      flex-direction: row-reverse;
+    }
     &__label {
       padding-top: 0px;
       padding-left: 30px;
@@ -53,6 +63,23 @@
       & svg {
         margin-left: 20px;
       }
+    }
+  }
+}
+
+.hide {
+  display: none;
+}
+.shades {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  & span {
+    opacity: 0;
+  }
+  &:hover {
+    & span {
+      opacity: 1;
     }
   }
 }

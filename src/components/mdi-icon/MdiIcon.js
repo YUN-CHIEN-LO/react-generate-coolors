@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Icon from "@mdi/react";
 import style from "./MdiIcon.module.scss";
+import contextAllcolor from "../../context/allColor";
 export default function MdiIcon(props) {
   const { isLarge, icon, mobileHide, onClickCallBack } = props;
+  const { setHideShade } = useContext(contextAllcolor);
+
   const classes = mobileHide
     ? `${style.icon} ${style.mobileHide}`
     : `${style.icon}`;
@@ -26,6 +29,7 @@ export default function MdiIcon(props) {
       size={size}
       onClick={(evt) => {
         evt.stopPropagation();
+        setHideShade();
         handleClick();
       }}
     />
