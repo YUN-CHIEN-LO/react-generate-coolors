@@ -113,6 +113,10 @@ const colorTransfer = {
     const { H, L, S } = Hex2Hsl(color);
     return Hsl2Hex({ H, S, L: L + 12 < 100 ? L + 12 : 100 });
   },
+  textColor: (color) => {
+    const { H, L, S } = Hex2Hsl(color);
+    return Hex2Hsl(Hsl2Hex({ H, S: 0, L })).L < 50 ? "#ffffff" : "#000000";
+  },
 };
 
 export default colorTransfer;

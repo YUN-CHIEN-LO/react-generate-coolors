@@ -13,15 +13,16 @@ import {
   mdiLockOpen,
   mdiLock,
 } from "@mdi/js";
-const { Hex2Hsl, Hsl2Hex } = colorTransfer;
+const { Hex2Hsl, Hsl2Hex, textColor } = colorTransfer;
 const ColorBlock = (props) => {
   // Hex 色票
   const { id, color, locked, shaded } = props.colorInfo;
 
-  // 背景色
-  const styleBg = {
+  const blockStyle = {
     backgroundColor: color,
+    color: textColor(color),
   };
+
   const { setToggleLock, setShowShade, setHideShade, setColor, removeColor } =
     useContext(contextAllcolor);
   const handleClickLock = () => {
@@ -47,8 +48,9 @@ const ColorBlock = (props) => {
         S: S,
         L: isOriginColor ? L : i,
       });
-      const bgStyle = {
+      const shadeStyle = {
         backgroundColor: tmpHex,
+        color: textColor(tmpHex),
       };
       const originStyle = isOriginColor
         ? {
@@ -59,7 +61,7 @@ const ColorBlock = (props) => {
         <div
           key={tmpHex}
           className={style.shades}
-          style={bgStyle}
+          style={shadeStyle}
           onClick={(evt) => {
             evt.stopPropagation();
             setColor(id, tmpHex);
@@ -95,7 +97,7 @@ const ColorBlock = (props) => {
         setHideShade();
       }}
     >
-      <div className={noShadeClass} style={styleBg}>
+      <div className={noShadeClass} style={blockStyle}>
         <div className={style.block__tools}>
           <MdiIcon
             mobileHide={true}
@@ -121,7 +123,7 @@ const ColorBlock = (props) => {
             onClickCallBack={handleClickLock}
           />
         </div>
-        <div className={style.block__label}>{color}</div>
+        <div className={style.block__label}>{color.toUpperCase()}</div>
       </div>
 
       <div className={shadeClass}>{shades.map((x) => x)}</div>
