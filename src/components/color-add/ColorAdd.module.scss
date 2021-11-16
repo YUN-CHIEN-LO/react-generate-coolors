@@ -1,0 +1,74 @@
+.add {
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+  }
+  &:after {
+    content: "+";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 100%;
+    text-align: center;
+    font-size: 48px;
+    line-height: 39px;
+    transition-duration: 0.05s;
+    cursor: pointer;
+  }
+  &:hover {
+    &:after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}
+
+// 大螢幕
+@media only screen and (min-width: 601px) {
+  .add {
+    width: 0;
+    &:before {
+      width: 50px;
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &__head {
+      &:after {
+        left: 30px;
+      }
+    }
+    &__end {
+      &:after {
+        left: -30px;
+      }
+    }
+  }
+}
+
+// 小螢幕
+@media only screen and (max-width: 600px) {
+  .add {
+    height: 0;
+    &:before {
+      width: 100%;
+      height: 25px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &__head {
+      &:after {
+        top: 30px;
+      }
+    }
+    &__end {
+      &:after {
+        top: -30px;
+      }
+    }
+  }
+}

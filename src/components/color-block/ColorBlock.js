@@ -3,7 +3,7 @@ import style from "./ColorBlock.module.scss";
 import MdiIcon from "./../mdi-icon/MdiIcon";
 import contextAllcolor from "../../context/allColor";
 import contextAlert from "../../context/alert";
-import { Hex2Hsl, Hsl2Hex } from "./utils";
+import { colorTransfer } from "../../utils";
 import {
   mdiClose,
   mdiGrid,
@@ -13,7 +13,7 @@ import {
   mdiLockOpen,
   mdiLock,
 } from "@mdi/js";
-
+const { Hex2Hsl, Hsl2Hex } = colorTransfer;
 const ColorBlock = (props) => {
   // Hex 色票
   const { id, color, locked, shaded } = props.colorInfo;
@@ -22,7 +22,7 @@ const ColorBlock = (props) => {
   const styleBg = {
     backgroundColor: color,
   };
-  const { setToggleLock, setShowShade, setHideShade, setColor } =
+  const { setToggleLock, setShowShade, setHideShade, setColor, removeColor } =
     useContext(contextAllcolor);
   const handleClickLock = () => {
     setToggleLock(id);
@@ -78,7 +78,9 @@ const ColorBlock = (props) => {
     setShowShade(id);
     setShades((arr) => genShades(color));
   };
-
+  const handleClickRemove = () => {
+    removeColor(id);
+  };
   const noShadeClass = shaded
     ? `${style.block__noshade} ${style.hide}`
     : `${style.block__noshade}`;
@@ -95,7 +97,11 @@ const ColorBlock = (props) => {
     >
       <div className={noShadeClass} style={styleBg}>
         <div className={style.block__tools}>
-          <MdiIcon mobileHide={true} icon={mdiClose} />
+          <MdiIcon
+            mobileHide={true}
+            icon={mdiClose}
+            onClickCallBack={handleClickRemove}
+          />
           <MdiIcon
             mobileHide={true}
             icon={mdiGrid}

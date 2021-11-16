@@ -1,16 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import ColorBlock from "../color-block/ColorBlock";
 import style from "./ColorBoard.module.scss";
 import { Provider } from "../../context/allColor";
-import {
-  DEFAULT_COLOR,
+import ColorAdd from "./../color-add/ColorAdd";
+import { DEFAULT_COLOR, MAX_LENTH } from "./constant";
+import { colorModule } from "../../utils";
+const {
   genRandomColors,
   toggleLock,
   showShade,
   hideShade,
   replaceColor,
-} from "./utils";
-
+  removeColor,
+  addColor,
+} = colorModule;
 const ColorBoard = () => {
   const [allColor, setAllColor] = useState(DEFAULT_COLOR);
 
@@ -27,6 +30,12 @@ const ColorBoard = () => {
     },
     setColor: (id, hex) => {
       setAllColor((colors) => replaceColor(colors, id, hex));
+    },
+    removeColor: (id) => {
+      setAllColor((colors) => removeColor(colors, id));
+    },
+    addColor: (id) => {
+      setAllColor((colors) => addColor(colors, id));
     },
   };
 
@@ -55,12 +64,18 @@ const ColorBoard = () => {
     };
   }, []);
 
+  const isAddable = allColor.length < MAX_LENTH;
   return (
     <Provider value={context}>
       <div className={style.board}>
-        {context.colors.map((x) => (
-          <ColorBlock key={x.id} colorInfo={x} />
+        {isAddable && <ColorAdd id={"head"} />}
+        {context.colors.map((x, index) => (
+          <Fragment key={x.id}>
+            {index > 0 && isAddable && <ColorAdd id={x.id} />}
+            <ColorBlock colorInfo={x} />
+          </Fragment>
         ))}
+        {isAddable && <ColorAdd id={"end"} />}
       </div>
     </Provider>
   );

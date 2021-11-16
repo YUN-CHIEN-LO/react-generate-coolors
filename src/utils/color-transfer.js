@@ -1,4 +1,4 @@
-export const Hex2Hsl = (H) => {
+const Hex2Hsl = (H) => {
   let r = 0,
     g = 0,
     b = 0;
@@ -26,7 +26,7 @@ export const Hex2Hsl = (H) => {
   if (h < 0) h += 360;
 
   l = (cmax + cmin) / 2;
-  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+  s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
   s = +(s * 100).toFixed(1);
   l = +(l * 100).toFixed(1);
 
@@ -36,8 +36,7 @@ export const Hex2Hsl = (H) => {
     L: l,
   };
 };
-
-export const Hsl2Hex = ({ H, S, L }) => {
+const Hsl2Hex = ({ H, S, L }) => {
   let h = H;
   let s = S / 100;
   let l = L / 100;
@@ -86,3 +85,34 @@ export const Hsl2Hex = ({ H, S, L }) => {
 
   return "#" + r + g + b;
 };
+const colorTransfer = {
+  Hex2Hsl: Hex2Hsl,
+  Hsl2Hex: Hsl2Hex,
+  findAverage: (c1, c2) => {
+    console.log(c1 + ", " + c2);
+    const { H: h1, S: s1, L: l1 } = Hex2Hsl(c1);
+    const { H: h2, S: s2, L: l2 } = Hex2Hsl(c2);
+
+    const gradientDegree = 0.5;
+
+    const lerp = (start, end, weight) => {
+      return start * (1 - weight) + end * weight;
+    };
+
+    return Hsl2Hex({
+      H: lerp(h1, h2, gradientDegree),
+      S: lerp(s1, s2, gradientDegree),
+      L: lerp(l1, l2, gradientDegree),
+    });
+  },
+  lightenColor: (color) => {
+    const { H, L, S } = Hex2Hsl(color);
+    return Hsl2Hex({ H, S, L: L - 12 > 0 ? L - 12 : 0 });
+  },
+  darkenColor: (color) => {
+    const { H, L, S } = Hex2Hsl(color);
+    return Hsl2Hex({ H, S, L: L + 12 < 100 ? L + 12 : 100 });
+  },
+};
+
+export default colorTransfer;
