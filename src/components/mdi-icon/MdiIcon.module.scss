@@ -1,0 +1,15 @@
+.icon {
+  opacity: 0.5;
+  cursor: pointer;
+  transition-duration: 0.1s;
+  &:hover {
+    opacity: 1.5 !important;
+  }
+}
+
+// 小螢幕
+@media only screen and (max-width: 600px) {
+  .mobileHide {
+    display: none;
+  }
+}

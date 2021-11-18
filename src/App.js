@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ColorBoard from "./components/color-board/ColorBoard";
 
+import Alert from "./components/alert/Alert";
+import { Provider } from "./context/alert";
 function App() {
+  // 是否顯示通知
+  const [alertVisible, setAlertVisible] = useState(false);
+  // 通知訊息
+  const [message, setMessage] = useState("");
+  const context = {
+    message: message,
+    /**
+     * 顯示通知
+     *
+     * @param {string} message - 訊息
+     */
+    showAlert: (message) => {
+      // 指定通知訊息
+      setMessage((x) => message);
+      // 重製通知狀態
+      setAlertVisible((x) => false);
+      // 開啟通知
+      setAlertVisible((x) => true);
+      const timer = setTimeout(() => {
+        // 關閉通知
+        setAlertVisible((x) => false);
+        clearTimeout(timer);
+      }, 3000);
+    },
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider value={context}>
+      <div className="App">
+        <ColorBoard />
+        {alertVisible && <Alert message={context.message} />}
+      </div>
+    </Provider>
   );
 }
 

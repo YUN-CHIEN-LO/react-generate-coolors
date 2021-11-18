@@ -1,0 +1,91 @@
+.block {
+  width: 100%;
+  transition-duration: 0.3s;
+  &__noshade,
+  &__shade {
+    display: flex;
+  }
+  &__tools {
+    flex: 1;
+    display: flex;
+    & svg {
+      opacity: 0;
+    }
+  }
+  &__label {
+    text-align: center;
+    font-size: 24px;
+  }
+  &:hover {
+    & svg {
+      opacity: 0.5;
+    }
+  }
+}
+
+// 大螢幕
+@media only screen and (min-width: 601px) {
+  .block {
+    &__noshade,
+    &__shade {
+      flex-direction: column;
+      height: 100vh;
+    }
+    &__label {
+      flex: 0 0 100px;
+      padding-top: 30px;
+    }
+    &__tools {
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 60px 0px;
+    }
+  }
+}
+
+// 小螢幕
+@media only screen and (max-width: 600px) {
+  .block {
+    height: 100%;
+    &__noshade {
+      height: 100%;
+      align-items: center;
+      flex-direction: row-reverse;
+      display: flex;
+    }
+    &__shade {
+      display: none;
+    }
+    &__label {
+      padding-top: 0px;
+      padding-left: 30px;
+    }
+    &__tools {
+      flex-direction: row;
+      justify-content: flex-end;
+      padding-right: 30px;
+      & svg {
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+.hide {
+  display: none;
+}
+.shades {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  & span {
+    opacity: 0;
+  }
+  &:hover {
+    & span {
+      opacity: 1;
+    }
+  }
+}
