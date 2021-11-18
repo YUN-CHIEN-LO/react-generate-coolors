@@ -1,3 +1,9 @@
+/**
+ * hex 轉 hsl 色號
+ *
+ * @param {string} H - hex 色號
+ * @returns {object} - hsl 色號
+ */
 const Hex2Hsl = (H) => {
   let r = 0,
     g = 0,
@@ -36,6 +42,16 @@ const Hex2Hsl = (H) => {
     L: l,
   };
 };
+
+/**
+ * hsl 轉 hex 色號
+ *
+ * @param {object} hsl - hsl 色號
+ * @param {number} hsl.H - hue
+ * @param {number} hsl.S - shade
+ * @param {number} hsl.L - light
+ * @returns {string} - hex 色號
+ */
 const Hsl2Hex = ({ H, S, L }) => {
   let h = H;
   let s = S / 100;
@@ -85,11 +101,27 @@ const Hsl2Hex = ({ H, S, L }) => {
 
   return "#" + r + g + b;
 };
+
+// 顏色轉換函式庫
 const colorTransfer = {
+  /**
+   * hex 轉 hsl 色號
+   */
   Hex2Hsl: Hex2Hsl,
+
+  /**
+   * hsl 轉 hex 色號
+   */
   Hsl2Hex: Hsl2Hex,
+
+  /**
+   * 計算中間色
+   *
+   * @param {string} c1 - hex 色號一
+   * @param {string} c2 - hex 色號二
+   * @returns {string} - hex 中間色號
+   */
   findAverage: (c1, c2) => {
-    console.log(c1 + ", " + c2);
     const { H: h1, S: s1, L: l1 } = Hex2Hsl(c1);
     const { H: h2, S: s2, L: l2 } = Hex2Hsl(c2);
 
@@ -105,16 +137,37 @@ const colorTransfer = {
       L: lerp(l1, l2, gradientDegree),
     });
   },
+
+  /**
+   * 提亮色號
+   *
+   * @param {string} color - hex 色號
+   * @returns {string} - 亮一點的 hex 色號
+   */
   lightenColor: (color) => {
     const { H, L, S } = Hex2Hsl(color);
     return Hsl2Hex({ H, S, L: L - 12 > 0 ? L - 12 : 0 });
   },
+
+  /**
+   * 壓暗色號
+   *
+   * @param {string} color - hex 色號
+   * @returns {string} - 暗一點的 hex 色號
+   */
   darkenColor: (color) => {
     const { H, L, S } = Hex2Hsl(color);
     return Hsl2Hex({ H, S, L: L + 12 < 100 ? L + 12 : 100 });
   },
+
+  /**
+   * 依照色票亮度判斷文字顏色
+   *
+   * @param {string} color - hex 色票 
+   * @returns {string} 黑色或白色
+   */
   textColor: (color) => {
-    const { H, L, S } = Hex2Hsl(color);
+    const { H, L } = Hex2Hsl(color);
     return Hex2Hsl(Hsl2Hex({ H, S: 0, L })).L < 50 ? "#ffffff" : "#000000";
   },
 };

@@ -1,4 +1,7 @@
+// 色票數上限
 export const MAX_LENTH = 7;
+
+// 初始色票
 export const DEFAULT_COLOR = [
   {
     id: 0,

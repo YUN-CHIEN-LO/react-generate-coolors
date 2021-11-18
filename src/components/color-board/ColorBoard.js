@@ -4,8 +4,10 @@ import style from "./ColorBoard.module.scss";
 import { Provider } from "../../context/allColor";
 import ColorAdd from "./../color-add/ColorAdd";
 import { DEFAULT_COLOR, MAX_LENTH } from "./constant";
-import { colorModule } from "../../utils";
+import { colorModule, dragDrop } from "../../utils";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+// 顏色模組
 const {
   genRandomColors,
   toggleLock,
@@ -16,42 +18,25 @@ const {
   addColor,
 } = colorModule;
 
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+// 拖拉模組
+const { reorder } = dragDrop;
 
-  return result;
-};
-
+/**
+ * 選染色票版
+ *
+ * @returns {JSX} 渲染樣板
+ */
 const ColorBoard = () => {
+  // 顏色陣列
   const [allColor, setAllColor] = useState(DEFAULT_COLOR);
-
-  const context = {
-    colors: allColor,
-    setToggleLock: (id) => {
-      setAllColor((colors) => toggleLock(colors, id));
-    },
-    setShowShade: (id) => {
-      setAllColor((colors) => showShade(colors, id));
-    },
-    setHideShade: () => {
-      setAllColor((colors) => hideShade(colors));
-    },
-    setColor: (id, hex) => {
-      setAllColor((colors) => replaceColor(colors, id, hex));
-    },
-    removeColor: (id) => {
-      setAllColor((colors) => removeColor(colors, id));
-    },
-    addColor: (id) => {
-      setAllColor((colors) => addColor(colors, id));
-    },
-  };
-
-  const refSpaceListener = useRef({});
-
+  // 視窗寬度
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // 是否達色票數量上限
+  const isAddable = allColor.length < MAX_LENTH;
+
+  // 空白鍵 debounce timer
+  const refSpaceListener = useRef({});
 
   // 監聽空白鍵事件
   useEffect(() => {
@@ -69,6 +54,7 @@ const ColorBoard = () => {
     // 掛載監聽事件
     document.addEventListener("keydown", (event) => onPress(event));
     window.addEventListener("resize", (event) => {
+      // 更新視窗寬度
       setWindowWidth(() => window.innerWidth);
     });
 
@@ -82,21 +68,74 @@ const ColorBoard = () => {
     };
   }, []);
 
-  const isAddable = allColor.length < MAX_LENTH;
-
+  /**
+   * 拖拉結束callback
+   *
+   * @param {object} result - 拖拉結果
+   * @returns {null}
+   */
   const onDragEnd = (result) => {
-    // dropped outside the list
+    // 拖拉至陣列之外
     if (!result.destination) {
       return;
     }
 
-    const items = reorder(
-      allColor,
-      result.source.index,
-      result.destination.index
+    setAllColor((colors) =>
+      // 產生新的顏色陣列
+      reorder(colors, result.source.index, result.destination.index)
     );
+  };
 
-    setAllColor((colors) => items);
+  // 顏色context
+  const context = {
+    colors: allColor,
+    /**
+     * 鎖定/解鎖色票
+     *
+     * @param {number} id - id
+     */
+    setToggleLock: (id) => {
+      setAllColor((colors) => toggleLock(colors, id));
+    },
+    /**
+     * 開啟色階
+     *
+     * @param {number} id - id
+     */
+    setShowShade: (id) => {
+      setAllColor((colors) => showShade(colors, id));
+    },
+    /**
+     * 關閉色階
+     */
+    setHideShade: () => {
+      setAllColor((colors) => hideShade(colors));
+    },
+    /**
+     * 重設顏色
+     *
+     * @param {number} id - id
+     * @param {string} hex - 新顏色
+     */
+    setColor: (id, hex) => {
+      setAllColor((colors) => replaceColor(colors, id, hex));
+    },
+    /**
+     * 移除色票
+     *
+     * @param {number} id - id
+     */
+    removeColor: (id) => {
+      setAllColor((colors) => removeColor(colors, id));
+    },
+    /**
+     * 新增色票
+     *
+     * @param {number} id - id
+     */
+    addColor: (id) => {
+      setAllColor((colors) => addColor(colors, id));
+    },
   };
 
   return (
@@ -112,6 +151,7 @@ const ColorBoard = () => {
               className={style.board}
               ref={provided.innerRef}
             >
+              {/* 在最左新增色票 */}
               {windowWidth > 600 && isAddable && <ColorAdd id={"head"} />}
               {context.colors.map((x, index) => (
                 <Draggable
@@ -120,6 +160,7 @@ const ColorBoard = () => {
                   index={index}
                 >
                   {(provided, snapshot) => (
+                    // 色票單位
                     <div
                       className={style.board__wrapper}
                       ref={provided.innerRef}
@@ -138,15 +179,18 @@ const ColorBoard = () => {
                               : `${100 / allColor.length}vh`,
                         }}
                       >
+                        {/* 色票之間的新增 */}
                         {windowWidth > 600 && isAddable && index > 0 && (
                           <ColorAdd id={x.id} />
                         )}
+                        {/* 色票本身 */}
                         <ColorBlock windowWidth={windowWidth} colorInfo={x} />
                       </div>
                     </div>
                   )}
                 </Draggable>
               ))}
+              {/* 在最右新增色票 */}
               {windowWidth > 600 && isAddable && <ColorAdd id={"end"} />}
             </div>
           )}
