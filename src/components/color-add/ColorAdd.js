@@ -12,6 +12,7 @@ export default function ColorAdd(props) {
     <div
       className={`${style.add} ${isHead} ${isEnd}`}
       onClick={handleClick}
-    ></div>
+    >
+    </div>
   );
 }

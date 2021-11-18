@@ -15,7 +15,6 @@ import {
 } from "@mdi/js";
 const { Hex2Hsl, Hsl2Hex, textColor } = colorTransfer;
 const ColorBlock = (props) => {
-  // Hex 色票
   const { id, color, locked, shaded } = props.colorInfo;
 
   const blockStyle = {
