@@ -124,6 +124,7 @@ const colorModule = {
    * @returns {array} - 色票陣列
    */
   removeColor: (arr, id) => {
+    if(arr.length === 1) return arr;
     return arr.filter((x) => x.id !== id);
   },
 
