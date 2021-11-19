@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/react-generate-coolors/static/css/main.2407290f.chunk.css",
+    "main.js": "/react-generate-coolors/static/js/main.7197fb03.chunk.js",
+    "main.js.map": "/react-generate-coolors/static/js/main.7197fb03.chunk.js.map",
+    "runtime-main.js": "/react-generate-coolors/static/js/runtime-main.ffc399f8.js",
+    "runtime-main.js.map": "/react-generate-coolors/static/js/runtime-main.ffc399f8.js.map",
+    "static/js/2.2ee49501.chunk.js": "/react-generate-coolors/static/js/2.2ee49501.chunk.js",
+    "static/js/2.2ee49501.chunk.js.map": "/react-generate-coolors/static/js/2.2ee49501.chunk.js.map",
+    "static/js/3.1decbb45.chunk.js": "/react-generate-coolors/static/js/3.1decbb45.chunk.js",
+    "static/js/3.1decbb45.chunk.js.map": "/react-generate-coolors/static/js/3.1decbb45.chunk.js.map",
+    "index.html": "/react-generate-coolors/index.html",
+    "static/css/main.2407290f.chunk.css.map": "/react-generate-coolors/static/css/main.2407290f.chunk.css.map",
+    "static/js/2.2ee49501.chunk.js.LICENSE.txt": "/react-generate-coolors/static/js/2.2ee49501.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ffc399f8.js",
+    "static/js/2.2ee49501.chunk.js",
+    "static/css/main.2407290f.chunk.css",
+    "static/js/main.7197fb03.chunk.js"
+  ]
+}
