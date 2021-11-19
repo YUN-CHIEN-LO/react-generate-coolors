@@ -58,7 +58,7 @@ const ColorBlock = (props) => {
   };
 
   /**
-   * 處理典籍色階事件
+   * 處理點擊色階事件
    */
   const handleClickShade = () => {
     setShowShade(id);
